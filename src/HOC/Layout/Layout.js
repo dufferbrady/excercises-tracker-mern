@@ -6,7 +6,6 @@ const Layout = props => {
     return (
         <div>
             <Header />
-            This is the header
             { props.children }
         </div>
 
