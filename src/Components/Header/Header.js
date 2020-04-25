@@ -5,12 +5,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        'font-family': 'Ubuntu, sans-serif',
+        'border-bottom': '3px solid red',
+        'position': 'absolute',
+        width: '100%',
+        'z-index': '50'
     },
     menuButton: {
         marginRight: '100px',
@@ -34,7 +37,7 @@ const Header = () => {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar style={{backgroundColor: 'black'}} position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.menuButton}>
                         <Link
