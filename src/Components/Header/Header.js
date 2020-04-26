@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         'border-bottom': '3px solid red',
         'position': 'absolute',
         width: '100%',
-        'z-index': '50'
+        'z-index': '100'
     },
     menuButton: {
         marginRight: '100px',
