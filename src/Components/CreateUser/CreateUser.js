@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import axios from 'axios'
+
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -54,7 +56,9 @@ class CreateUser extends Component {
             calorieGoal: this.state.calorieGoal,
             favouriteExcercise: this.state.favouriteExcercise
         }
-        console.log(newUser)
+        axios.post('http://localhost:5000/users/add', newUser)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
     }
 
     changeUsernameHandler = e => {

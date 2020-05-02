@@ -5,13 +5,13 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 const userRoute = require('./routes/users');
 const excerciseRoute = require('./routes/excercises');
 
 app.use(cors());
 app.use(express.json());
-app.use('/users/', userRoute);
+app.use('/users', userRoute);
 app.use('/excercises/', excerciseRoute);
 
 const uri = process.env.MONGO_ATLAS_URI;

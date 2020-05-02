@@ -10,6 +10,27 @@ const userSchema = new Schema({
     trim: true,
     minlength: 3
   },
+  height: {
+    type: Number,
+    required: true,
+    maxlength: 3
+  },
+  weight: {
+    type: Number,
+    required: true,
+    maxlength: 3
+  },
+  calorieGoal: {
+    type: Number,
+    required: true,
+  },
+  favouriteExcercise: {
+    type: String,
+    required: true,
+    unique: false,
+    trim: true,
+    minlength: 3
+  }
 }, {
   timestamps: true,
 });
