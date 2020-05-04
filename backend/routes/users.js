@@ -25,7 +25,7 @@ router.route('/add').post((req, res) => {
         favouriteExcercise
     });
     newUser.save()
-        .then(users => res.json(`New User Added!`))
+        .then(users => res.json(`${newUser}`))
         .catch(err => res.status(400).json(`Error: ${err}`))
 })
 

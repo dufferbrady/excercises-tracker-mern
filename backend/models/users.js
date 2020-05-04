@@ -27,7 +27,6 @@ const userSchema = new Schema({
   favouriteExcercise: {
     type: String,
     required: true,
-    unique: false,
     trim: true,
     minlength: 3
   }

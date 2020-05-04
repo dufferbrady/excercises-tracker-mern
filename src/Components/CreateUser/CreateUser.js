@@ -1,41 +1,43 @@
 import React, { Component } from 'react';
 
-import axios from 'axios'
+import axios from 'axios';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import styled from 'styled-components';
+import Spinner from '../../UI/Spinner/Spinner';
 
 import classes from './CreateUser.module.css'
 
-// const useStyles = makeStyles((theme) => ({
-//     cover_image: {
-//         background: "url('/images/create_user.jpg') no-repeat center center fixed",
-//         backgroundSize: 'cover',
-//         height: '100vh',
-//         width: '100vw',
-//         position: 'absolute',
-//         zIndex: '40'
-//     },
-
-//     overlay: {
-//         position: 'absolute',
-//         height: '100vh',
-//         width: '100vw',
-//         background: 'black',
-//         zIndex: '45',
-//         opacity: '75%'
-//     },
-
-//     paper: {
-//         width: '25%',
-//         margin: '15% auto 0 auto',
-//         padding: '10px',
-//         position: 'relative',
-//         zIndex: '50',
-//         background: 'gray'
-//     }
-// })
+const StyledTextField = styled(TextField)`
+    
+    .MuiInputBase-input {
+        color: white;
+        '&hover': {
+            border-bottom: 1px solid white
+        }
+        '&focus': {
+            border-bottom: 1px solid white;
+        }
+    }
+    .MuiInputAdornment-positionEnd {
+        color: white;
+        
+    }
+    .MuiTypography-colorTextSecondary {
+        color: white;
+    }
+    .MuiInput-underline:after {
+        border-bottom: 2px solid red;
+    }
+    label.Mui-focused {
+        color: white;
+    }
+    label {
+        color: white
+    }
+`;
 
 class CreateUser extends Component {
 
@@ -44,10 +46,17 @@ class CreateUser extends Component {
         height: 0,
         weight: 0,
         calorieGoal: 0,
-        favouriteExcercise: ''
+        favouriteExcercise: '',
+        loading: false,
+        formSuccess: ''
+    }
+
+    experiment = e => {
+        console.log('linked')
     }
 
     submitUserHandler = e => {
+        this.setState({ loading: true })
         e.preventDefault();
         const newUser = {
             username: this.state.username,
@@ -57,8 +66,22 @@ class CreateUser extends Component {
             favouriteExcercise: this.state.favouriteExcercise
         }
         axios.post('http://localhost:5000/users/add', newUser)
-            .then(res => console.log(res.data))
-            .catch(err => console.log(err))
+            .then(res => {
+                console.log(res)
+                this.setState({
+                    loading: false,
+                    formSuccess: `New User ${this.state.username} Added!`
+                })
+                setTimeout(() => this.setState({formSuccess: ''}), 4000)
+            })
+            .catch(err => {
+                console.log(err)
+                this.setState({
+                    loading: false,
+                    formSuccess: 'Sorry there was a problem, please try again'
+                })
+                setTimeout(() => this.setState({formSuccess: ''}), 4000)
+            })
     }
 
     changeUsernameHandler = e => {
@@ -92,21 +115,35 @@ class CreateUser extends Component {
     }
 
     render() {
+
         return (
             <div className={classes.cover_image}>
                 <div className={classes.overlay}></div>
-                <Paper style={{ background: 'rgb(37, 37, 37)' }} className={classes.paper}>
+                <div style={{ background: 'rgb(37, 37, 37)' }} className={classes.paper}>
+                    {this.state.loading ?
+                        <div className={classes.spinner}>
+                            <Spinner />
+                        </div> : this.state.formSuccess ?
+                            <div className={classes.formSuccess}>
+                                {this.state.formSuccess}
+                            </div> : null
+                    }
                     <h1 className={classes.head}>Create a User</h1>
                     <form onSubmit={this.submitUserHandler}>
-                        <TextField
+                        <StyledTextField
+                            fullWidth
                             onChange={this.changeUsernameHandler}
-                            style={{ margin: '0 5px 5px 5px' }}
-                            className={classes.textFieldBasic}
                             id="standard-basic"
                             label="Username"
-                            autoComplete="off" />
+                            autoComplete="off"
+                            style={{ margin: '5px' }}
+                            InputProps={{
+                                style: {
+                                    color: 'white',
+                                }
+                            }} />
                         <div className={classes.textBlock}>
-                            <TextField
+                            <StyledTextField
                                 onChange={this.changeHeightHandler}
                                 style={{ marginRight: '5px' }}
                                 className={classes.textFieldBasic}
@@ -117,7 +154,7 @@ class CreateUser extends Component {
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">cm</InputAdornment>,
                                 }} />
-                            <TextField
+                            <StyledTextField
                                 onChange={this.changeWeightHandler}
                                 style={{ marginLeft: '5px' }}
                                 className={classes.textFieldBasic}
@@ -127,26 +164,39 @@ class CreateUser extends Component {
                                 autoComplete="off"
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">Kg</InputAdornment>,
+                                    style: {
+                                        color: 'white'
+                                    }
                                 }} />
                         </div>
-                        <TextField
+                        <StyledTextField
                             onChange={this.changeCalorieHandler}
                             style={{ margin: '5px' }}
                             className={classes.textFieldBasic}
                             id="standard-basic"
                             label="Daily Calorie Goal"
                             autoComplete="off"
-                            type="number" />
-                        <TextField
+                            type="number"
+                            InputProps={{
+                                style: {
+                                    color: 'white'
+                                }
+                            }} />
+                        <StyledTextField
                             onChange={this.changeExcerciseHandler}
                             style={{ margin: '5px' }}
                             className={classes.textFieldBasic}
                             id="standard-basic"
                             autoComplete="off"
-                            label="Favourite Excercise" />
-                        <button style={{ display: 'none' }}>Submit</button>
+                            label="Favourite Excercise"
+                            InputProps={{
+                                style: {
+                                    color: 'white'
+                                }
+                            }} />
+                        <button style={{ display: 'none' }} type="submit" onSubmit={this.submitUserHandler}>Submit</button>
                     </form>
-                </Paper>
+                </div>
             </div>
         );
     }
