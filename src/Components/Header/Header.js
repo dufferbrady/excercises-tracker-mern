@@ -54,7 +54,7 @@ const Header = () => {
                                     color: 'white',
                                     textDecoration: 'none'
                                 }}
-                                to='/Excercises'>Excercises</Link>
+                                to='/excercise-list'>Excercises</Link>
                         </Typography>
                         <Typography className={classes.block} variant="h6">
                             <Link
@@ -62,7 +62,7 @@ const Header = () => {
                                     color: 'white',
                                     textDecoration: 'none'
                                 }}
-                                to='/Add-Excercises'>Add Excercise</Link>
+                                to='/add-excercises'>Add Excercise</Link>
                         </Typography>
                         <Typography className={classes.block} variant="h6">
                             <Link
@@ -70,7 +70,7 @@ const Header = () => {
                                     color: 'white',
                                     textDecoration: 'none'
                                 }}
-                                to='/Create-User'>Create User</Link>
+                                to='/create-user'>Create User</Link>
                         </Typography>
                     </div>
                 </Toolbar>

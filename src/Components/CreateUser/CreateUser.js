@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
 import Spinner from '../../UI/Spinner/Spinner';
