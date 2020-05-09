@@ -5,6 +5,7 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
 import MenuItem from '@material-ui/core/MenuItem';
+import Spinner from '../../UI/Spinner/Spinner';
 
 import classes from './AddExcercise.module.css';
 
@@ -43,7 +44,9 @@ class AddExcercise extends Component {
         excercise: '',
         duration: 0,
         user: '',
-        userList: ''
+        userList: '',
+        loading: false,
+        formSuccess: ''
     }
 
     componentDidMount() {
@@ -80,7 +83,29 @@ class AddExcercise extends Component {
 
     submitExcerciseHandler = e => {
         e.preventDefault()
-        console.log(this.state)
+        this.setState({ loading: true })
+        const newExcercise = {
+            description: this.state.excercise,
+            duration: this.state.duration,
+            username: this.state.user
+        }
+
+        axios.post('http://localhost:5000/excercises/add', newExcercise)
+            .then(res => {
+                this.setState({
+                    loading: false,
+                    formSuccess: `New Excercise Added!`
+                })
+                setTimeout(() => this.setState({formSuccess: ''}), 4000)
+            })
+            .catch(err => {
+                console.log(err)
+                this.setState({
+                    loading: false,
+                    formSuccess: 'Sorry there was a problem, please try again'
+                })
+                setTimeout(() => this.setState({formSuccess: ''}), 4000)
+            })
     }
 
     render() {
@@ -97,14 +122,14 @@ class AddExcercise extends Component {
             <div className={classes.cover_image}>
                 <div className={classes.overlay}></div>
                 <div style={{ background: 'rgb(37, 37, 37)' }} className={classes.paper}>
-                    {/* {this.state.loading ?
+                    {this.state.loading ?
                         <div className={classes.spinner}>
                             <Spinner />
                         </div> : this.state.formSuccess ?
                             <div className={classes.formSuccess}>
                                 {this.state.formSuccess}
                             </div> : null
-                    } */}
+                    }
                     <h1 className={classes.head}>Add Excercise</h1>
                     <form onSubmit={this.submitExcerciseHandler}>
                         <StyledTextField
