@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 
 import { dateConvertor } from '../../misc/helpers';
 
@@ -11,7 +12,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { styled } from '@material-ui/core/styles';
 
 import classes from './ExcerciseList.module.css';
 
@@ -36,6 +36,13 @@ class ExcerciseList extends Component {
                 })
             })
             .catch(err => console.log(err))
+    }
+
+    editExcerciseHandler = id => {
+        axios.get(`http://localhost:5000/excercises/${id}`)
+            .then(excercise => {
+                console.log(excercise.data)
+            })
     }
 
     render() {
@@ -63,18 +70,20 @@ class ExcerciseList extends Component {
                                             <TableCell className={classes.style} align="left">{row.date}</TableCell>
                                             <TableCell className={classes.style} align="left">{row.username}</TableCell>
                                             <TableCell>
-                                                <Button className={classes.styledButton} variant="outlined">Edit</Button>
+                                                <Link to={`/update-excercise/${row._id}`}>
+                                                    <Button onClick={id => this.editExcerciseHandler(row._id)} className={classes.styledButton} variant="outlined">Edit</Button>
+                                                </Link>
                                             </TableCell>
                                         </TableRow>
-                                    ))
-                                    : null
-                            }
+                                            ))
+                                            : null
+                                    }
                         </TableBody>
                     </Table>
                 </TableContainer>
             </div>
-        );
-    }
-}
-
+                    );
+                }
+            }
+            
 export default ExcerciseList;
