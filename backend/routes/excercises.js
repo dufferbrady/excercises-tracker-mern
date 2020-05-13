@@ -35,13 +35,12 @@ router.route('/add').post((req, res) => {
 })
 
 router.route('/update/:id').post((req, res) => {
-    console.log(req.params.id)
     Excercise.findById(req.params.id)
         .then(excercise => {
             excercise.username = req.body.username,
             excercise.description = req.body.description,
             excercise.duration = Number(req.body.duration),
-            excercise.date = Date.parse(req.body.date)
+            excercise.date = new Date()
 
             excercise.save()
                 .then(excercise => res.json(`Excercise ${req.params.id} has been updated succesfully`))
