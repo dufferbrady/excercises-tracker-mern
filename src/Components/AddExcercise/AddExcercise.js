@@ -56,8 +56,9 @@ class AddExcercise extends Component {
                 res.data.map(user => {
                     userList.push(user.username)
                 })
+                let uniqueUserList = [ ...new Set(userList) ];
                 this.setState({
-                    userList
+                    userList: uniqueUserList
                 })
             })
             .catch(err => console.log(err))
