@@ -12,6 +12,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Spinner from '../../UI/Spinner/Spinner';
 
 import classes from './ExcerciseList.module.css';
 
@@ -19,20 +20,22 @@ import classes from './ExcerciseList.module.css';
 class ExcerciseList extends Component {
 
     state = {
-        excerciseList: ''
+        excerciseList: '',
+        loading: false
     }
 
 
     componentDidMount() {
+        this.setState({ loading: true })
         axios.get('http://localhost:5000/excercises')
             .then(res => {
                 res.data.map(excercise => {
                     const newDate = dateConvertor(excercise.date);
-                    console.log(newDate);
                     excercise.date = newDate;
                 })
                 this.setState({
-                    excerciseList: res.data
+                    excerciseList: res.data,
+                    loading: false
                 })
             })
             .catch(err => console.log(err))
@@ -62,6 +65,12 @@ class ExcerciseList extends Component {
                         </TableHead>
                         <TableBody>
                             {
+                                this.state.loading ?
+                                    <div className={classes.spinner}>
+                                        <Spinner />
+                                    </div> : null
+                            }
+                            {
                                 this.state.excerciseList ?
                                     this.state.excerciseList.map(row => (
                                         <TableRow className={classes.row} key={row._id}>
@@ -70,20 +79,20 @@ class ExcerciseList extends Component {
                                             <TableCell className={classes.style} align="left">{row.date}</TableCell>
                                             <TableCell className={classes.style} align="left">{row.username}</TableCell>
                                             <TableCell>
-                                                <Link to={`/update-excercise/${row._id}`}>
+                                                <Link style={{ textDecoration: 'none' }} to={`/update-excercise/${row._id}`}>
                                                     <Button onClick={id => this.editExcerciseHandler(row._id)} className={classes.styledButton} variant="outlined">Edit</Button>
                                                 </Link>
                                             </TableCell>
                                         </TableRow>
-                                            ))
-                                            : null
-                                    }
+                                    ))
+                                    : null
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
             </div>
-                    );
-                }
-            }
-            
+        );
+    }
+}
+
 export default ExcerciseList;

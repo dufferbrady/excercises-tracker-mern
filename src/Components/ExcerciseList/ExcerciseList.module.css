@@ -1,7 +1,7 @@
 .cover_image {
     background: url('/images/excerciseList.jpg') no-repeat center center fixed;
     background-size: cover;
-    /* height: 100vh; */
+    min-height: 100vh;
     width: 100vw;
     position: absolute;
     z-index: 40;
@@ -19,13 +19,15 @@
 .container {
     border-radius: 5px;
     width: fit-content !important;
-    margin: 12.5% auto 0 auto;
+    margin: 12.5% auto 5% auto;
     position: relative;
     z-index: 50;
     font-family: Ubuntu, sans-serif;
     box-sizing: border-box;
     padding: 20px;
     background: rgb(37, 37, 37) !important;
+    min-height: 300px;
+    overflow: hidden;
 }
 
 .style{
@@ -39,4 +41,15 @@
 
 .styledButton:hover {
     background: red !important;
+}
+
+.spinner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    margin: -20px;
 }
